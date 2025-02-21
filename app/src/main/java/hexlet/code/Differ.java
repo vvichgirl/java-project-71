@@ -8,6 +8,8 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.Map;
 
 public class Differ {
@@ -16,7 +18,7 @@ public class Differ {
         try {
             path = Paths.get("src", "main", "resources", fileName)
                     .toAbsolutePath().normalize();
-        } catch(InvalidPathException e) {
+        } catch (InvalidPathException e) {
             System.out.println("Path Error " + e);
         }
         return path;
@@ -32,8 +34,8 @@ public class Differ {
         String file2;
         ObjectMapper mapper1 = new ObjectMapper();
         ObjectMapper mapper2 = new ObjectMapper();
-        Map<String, String> parseFile1 = null;
-        Map<String, String> parseFile2 = null;
+        Map<String, String> mapFile1;
+        Map<String, String> mapFile2;
 
         try {
             file1 = readFile(filePath1);
@@ -47,16 +49,45 @@ public class Differ {
         }
 
         try {
-            parseFile1 = mapper1.readValue(file1, Map.class);
+            mapFile1 = mapper1.readValue(file1, Map.class);
         } catch (JsonProcessingException e) {
             return "Json format error in the file '" + filePath1 + "'";
         }
         try {
-            parseFile2 = mapper2.readValue(file2, Map.class);
+            mapFile2 = mapper2.readValue(file2, Map.class);
         } catch (JsonProcessingException e) {
             return "Json format error in the file '" + filePath2 + "'";
         }
 
-        return parseFile1.get("proxy");
+        Set<String> keys = new TreeSet<>(mapFile1.keySet());
+        keys.addAll(mapFile2.keySet());
+
+        var result = keys.stream()
+                .reduce("{\n", (diff, key) -> diff + getDiff(key, mapFile1, mapFile2));
+
+        result += "}";
+        return result;
+    }
+
+    public static String getDiff(String key, Map<String, String> map1, Map<String, String> map2) {
+        var value1 = String.valueOf(map1.get(key));
+        var value2 = String.valueOf(map2.get(key));
+        var indent = "  ";
+        var diffResult = "";
+        if (!map1.containsKey(key)) {
+            diffResult = indent + "+ " + key + ": " + value2 + "\n";
+        }
+        if (!map2.containsKey(key)) {
+            diffResult = indent + "- " + key + ": " + value1 + "\n";
+        }
+        if (map1.containsKey(key) && map2.containsKey(key)) {
+            if (value1.equals(value2)) {
+                diffResult = indent + "  " + key + ": " + value1 + "\n";
+            } else {
+                diffResult = indent + "- " + key + ": " + value1 + "\n";
+                diffResult += indent + "+ " + key + ": " + value2 + "\n";
+            }
+        }
+        return diffResult;
     }
 }
