@@ -13,23 +13,22 @@ import java.util.TreeSet;
 import java.util.Map;
 
 public class Differ {
-    private static Path getPath(String fileName) {
+    private static Path getPath(String filePath) {
         Path path = null;
         try {
-            path = Paths.get("src", "main", "resources", fileName)
-                    .toAbsolutePath().normalize();
+            path = Paths.get(filePath).toAbsolutePath().normalize();
         } catch (InvalidPathException e) {
             System.out.println("Path Error " + e);
         }
         return path;
     }
 
-    private static String readFile(String fileName) throws IOException {
-        Path path = getPath(fileName);
+    private static String readFile(String filePath) throws IOException {
+        Path path = getPath(filePath);
         return new String(Files.readString(path).trim());
     }
 
-    public static String generate(String filePath1, String filePath2) {
+    public static String generate(String filePath1, String filePath2) throws IOException {
         String file1;
         String file2;
         ObjectMapper mapper1 = new ObjectMapper();
