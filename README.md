@@ -18,5 +18,7 @@ make install
 ```
 
 ### Demonstrations
-#### Report in stylish format (default)
+#### Report in stylish format for json file
 [![asciicast](https://asciinema.org/a/AHgSRFQAstqbclq3Wn60QIS82.svg)](https://asciinema.org/a/AHgSRFQAstqbclq3Wn60QIS82)
+#### Report in stylish format for yaml file
+[![asciicast](https://asciinema.org/a/M1rXLAAdHypcFl8YpZUP4CP00.svg)](https://asciinema.org/a/M1rXLAAdHypcFl8YpZUP4CP00) 

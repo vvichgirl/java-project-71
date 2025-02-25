@@ -1,7 +1,6 @@
 package hexlet.code;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,41 +27,55 @@ public class Differ {
         return new String(Files.readString(path).trim());
     }
 
-    public static String generate(String filePath1, String filePath2) throws IOException {
+    public static String getFileExtension(String filePath) {
+        int index = filePath.lastIndexOf('.');
+        return index == -1 ? null : filePath.substring(index + 1);
+    }
+
+    public static String generate(String filePath1, String filePath2) {
         String file1;
         String file2;
-        ObjectMapper mapper1 = new ObjectMapper();
-        ObjectMapper mapper2 = new ObjectMapper();
-        Map<String, String> mapFile1;
-        Map<String, String> mapFile2;
 
         try {
             file1 = readFile(filePath1);
         } catch (IOException e) {
-            return "Check the file '" + filePath1 + "' exist and the access.";
+            System.out.println("Check the file '" + filePath1 + "' exist and the access.");
+            return "";
         }
         try {
             file2 = readFile(filePath2);
         } catch (IOException e) {
-            return "Check the file '" + filePath2 + "' exist and the access.";
+            System.out.println("Check the file '" + filePath2 + "' exist and the access.");
+            return "";
         }
 
+        var ext1 = getFileExtension(filePath1);
+        var ext2 = getFileExtension(filePath2);
+
+        Map<String, String> mapFile1 = null;
+        Map<String, String> mapFile2 = null;
         try {
-            mapFile1 = mapper1.readValue(file1, Map.class);
+            mapFile1 = Parser.parse(filePath1, file1, ext1);
         } catch (JsonProcessingException e) {
-            return "Json format error in the file '" + filePath1 + "'";
+            System.out.println(ext1 + " format error in the file '" + filePath1 + "'");
+            System.out.println(e.getMessage());
+            return "";
         }
         try {
-            mapFile2 = mapper2.readValue(file2, Map.class);
+            mapFile2 = Parser.parse(filePath2, file2, ext2);
         } catch (JsonProcessingException e) {
-            return "Json format error in the file '" + filePath2 + "'";
+            System.out.println(ext1 + " format error in the file '" + filePath2 + "'");
+            System.out.println(e.getMessage());
+            return "";
         }
 
         Set<String> keys = new TreeSet<>(mapFile1.keySet());
         keys.addAll(mapFile2.keySet());
 
+        Map<String, String> finalMapFile = mapFile1;
+        Map<String, String> finalMapFile1 = mapFile2;
         var result = keys.stream()
-                .reduce("{\n", (diff, key) -> diff + getDiff(key, mapFile1, mapFile2));
+                .reduce("{\n", (diff, key) -> diff + getDiff(key, finalMapFile, finalMapFile1));
 
         result += "}";
         return result;

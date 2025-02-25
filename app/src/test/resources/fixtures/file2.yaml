@@ -1,0 +1,7 @@
+user: Ivan
+id: 2
+age: 30
+sex: male
+email: ivan@mail.ru
+haveChildren: false
+secrets: true

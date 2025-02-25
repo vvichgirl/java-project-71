@@ -1,0 +1,7 @@
+user: hexlet
+id: 1
+age: 30
+sex: male
+email: mail@mail.ru
+haveChildren: true
+countChildren: 2

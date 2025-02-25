@@ -4,5 +4,6 @@
   "age": 30,
   "sex": "male",
   "email": "ivan@mail.ru",
-  "haveChildren": false
+  "haveChildren": false,
+  "secrets": true
 }

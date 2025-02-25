@@ -7,6 +7,7 @@
   + haveChildren: false
   - id: 1
   + id: 2
+  + secrets: true
     sex: male
   - user: hexlet
   + user: Ivan
