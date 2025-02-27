@@ -1,5 +1,7 @@
 {
+  + address: {city=Moscow, country=Russia}
     age: 30
+  - children: [Katya, Jake]
   - countChildren: 2
   - email: mail@mail.ru
   + email: ivan@mail.ru

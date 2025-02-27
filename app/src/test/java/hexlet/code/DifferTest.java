@@ -35,6 +35,14 @@ public class DifferTest {
     public void testGenerateJsonStylish() throws IOException {
         var filePath1 = "src/test/resources/fixtures/file1.json";
         var filePath2 = "src/test/resources/fixtures/file2.json";
+        var actual = Differ.generate(filePath1, filePath2, "stylish");
+        assertEquals(resultStylish, actual);
+    }
+
+    @Test
+    public void testGenerateJsonWithoutFormat() throws IOException {
+        var filePath1 = "src/test/resources/fixtures/file1.json";
+        var filePath2 = "src/test/resources/fixtures/file2.json";
         var actual = Differ.generate(filePath1, filePath2);
         assertEquals(resultStylish, actual);
     }
@@ -43,15 +51,25 @@ public class DifferTest {
     public void testGenerateYAMLStylish() throws IOException {
         var filePath1 = "src/test/resources/fixtures/file1.yaml";
         var filePath2 = "src/test/resources/fixtures/file2.yaml";
-        var actual = Differ.generate(filePath1, filePath2);
+        var actual = Differ.generate(filePath1, filePath2, "stylish");
         assertEquals(resultStylish, actual);
     }
 
     @Test
-    public void testGenerateIncorrectFormat() throws IOException {
+    public void testGenerateIncorrectFileFormat() throws IOException {
         var filePath1 = "src/test/resources/fixtures/file_txt_format.txt";
         Throwable thrown = assertThrows(RuntimeException.class, () -> {
-            Differ.generate(filePath1, filePath1);
+            Differ.generate(filePath1, filePath1, "stylish");
+        });
+        assertNotNull(thrown.getMessage());
+    }
+
+    @Test
+    public void testGenerateIncorrectOutputFormat() throws IOException {
+        var filePath1 = "src/test/resources/fixtures/file1.json";
+        var filePath2 = "src/test/resources/fixtures/file2.json";
+        Throwable thrown = assertThrows(RuntimeException.class, () -> {
+            Differ.generate(filePath1, filePath2, "no_format");
         });
         assertNotNull(thrown.getMessage());
     }

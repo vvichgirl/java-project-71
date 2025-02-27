@@ -5,3 +5,6 @@ sex: male
 email: ivan@mail.ru
 haveChildren: false
 secrets: true
+address:
+  city: Moscow
+  country: Russia

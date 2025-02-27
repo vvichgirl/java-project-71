@@ -5,3 +5,6 @@ sex: male
 email: mail@mail.ru
 haveChildren: true
 countChildren: 2
+children:
+  - Katya
+  - Jake

@@ -29,10 +29,10 @@ public class Differ {
 
     public static String getFileExtension(String filePath) {
         int index = filePath.lastIndexOf('.');
-        return index == -1 ? null : filePath.substring(index + 1);
+        return filePath.substring(index + 1);
     }
 
-    public static String generate(String filePath1, String filePath2) {
+    public static String generate(String filePath1, String filePath2, String format) {
         String file1;
         String file2;
 
@@ -72,34 +72,12 @@ public class Differ {
         Set<String> keys = new TreeSet<>(mapFile1.keySet());
         keys.addAll(mapFile2.keySet());
 
-        Map<String, String> finalMapFile = mapFile1;
-        Map<String, String> finalMapFile1 = mapFile2;
-        var result = keys.stream()
-                .reduce("{\n", (diff, key) -> diff + getDiff(key, finalMapFile, finalMapFile1));
-
-        result += "}";
+        var diffMap = Comparator.getDiff(keys, mapFile1, mapFile2);
+        var result = Formatter.getFormattedOutput(diffMap, format);
         return result;
     }
 
-    public static String getDiff(String key, Map<String, String> map1, Map<String, String> map2) {
-        var value1 = String.valueOf(map1.get(key));
-        var value2 = String.valueOf(map2.get(key));
-        var indent = "  ";
-        var diffResult = "";
-        if (!map1.containsKey(key)) {
-            diffResult = indent + "+ " + key + ": " + value2 + "\n";
-        }
-        if (!map2.containsKey(key)) {
-            diffResult = indent + "- " + key + ": " + value1 + "\n";
-        }
-        if (map1.containsKey(key) && map2.containsKey(key)) {
-            if (value1.equals(value2)) {
-                diffResult = indent + "  " + key + ": " + value1 + "\n";
-            } else {
-                diffResult = indent + "- " + key + ": " + value1 + "\n";
-                diffResult += indent + "+ " + key + ": " + value2 + "\n";
-            }
-        }
-        return diffResult;
+    public static String generate(String filePath1, String filePath2) {
+        return generate(filePath1, filePath2, "stylish");
     }
 }
