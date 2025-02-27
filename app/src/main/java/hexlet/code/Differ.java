@@ -1,7 +1,5 @@
 package hexlet.code;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
@@ -22,9 +20,14 @@ public class Differ {
         return path;
     }
 
-    private static String readFile(String filePath) throws IOException {
+    private static String readFile(String filePath) {
         Path path = getPath(filePath);
-        return new String(Files.readString(path).trim());
+        try {
+            return new String(Files.readString(path).trim());
+        } catch (IOException e) {
+            System.out.println("Check the file '" + filePath + "' exist and the access.");
+            return "";
+        }
     }
 
     public static String getFileExtension(String filePath) {
@@ -33,41 +36,14 @@ public class Differ {
     }
 
     public static String generate(String filePath1, String filePath2, String format) {
-        String file1;
-        String file2;
-
-        try {
-            file1 = readFile(filePath1);
-        } catch (IOException e) {
-            System.out.println("Check the file '" + filePath1 + "' exist and the access.");
-            return "";
-        }
-        try {
-            file2 = readFile(filePath2);
-        } catch (IOException e) {
-            System.out.println("Check the file '" + filePath2 + "' exist and the access.");
-            return "";
-        }
+        String file1 = readFile(filePath1);
+        String file2 = readFile(filePath2);
 
         var ext1 = getFileExtension(filePath1);
         var ext2 = getFileExtension(filePath2);
 
-        Map<String, String> mapFile1 = null;
-        Map<String, String> mapFile2 = null;
-        try {
-            mapFile1 = Parser.parse(filePath1, file1, ext1);
-        } catch (JsonProcessingException e) {
-            System.out.println(ext1 + " format error in the file '" + filePath1 + "'");
-            System.out.println(e.getMessage());
-            return "";
-        }
-        try {
-            mapFile2 = Parser.parse(filePath2, file2, ext2);
-        } catch (JsonProcessingException e) {
-            System.out.println(ext1 + " format error in the file '" + filePath2 + "'");
-            System.out.println(e.getMessage());
-            return "";
-        }
+        Map<String, String> mapFile1 = Parser.parse(filePath1, file1, ext1);
+        Map<String, String> mapFile2 = Parser.parse(filePath2, file2, ext2);
 
         Set<String> keys = new TreeSet<>(mapFile1.keySet());
         keys.addAll(mapFile2.keySet());
