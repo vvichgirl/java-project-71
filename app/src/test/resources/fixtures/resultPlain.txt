@@ -1,0 +1,8 @@
+Property 'address' was added with value: [complex value]
+Property 'children' was removed
+Property 'countChildren' was removed
+Property 'email' was updated. From 'mail@mail.ru' to 'ivan@mail.ru'
+Property 'haveChildren' was updated. From true to false
+Property 'id' was updated. From 1 to 2
+Property 'secrets' was added with value: true
+Property 'user' was updated. From 'hexlet' to 'Ivan'

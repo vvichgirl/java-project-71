@@ -10,24 +10,13 @@ import java.util.TreeSet;
 import java.util.Map;
 
 public class Differ {
-    private static Path getPath(String filePath) {
-        Path path = null;
-        try {
-            path = Paths.get(filePath).toAbsolutePath().normalize();
-        } catch (InvalidPathException e) {
-            System.out.println("Path Error " + e);
-        }
-        return path;
+    private static Path getPath(String filePath) throws InvalidPathException {
+        return Paths.get(filePath).toAbsolutePath().normalize();
     }
 
-    private static String readFile(String filePath) {
+    private static String readFile(String filePath) throws IOException {
         Path path = getPath(filePath);
-        try {
-            return new String(Files.readString(path).trim());
-        } catch (IOException e) {
-            System.out.println("Check the file '" + filePath + "' exist and the access.");
-            return "";
-        }
+        return new String(Files.readString(path).trim());
     }
 
     public static String getFileExtension(String filePath) {
@@ -35,15 +24,15 @@ public class Differ {
         return filePath.substring(index + 1);
     }
 
-    public static String generate(String filePath1, String filePath2, String format) {
+    public static String generate(String filePath1, String filePath2, String format) throws IOException {
         String file1 = readFile(filePath1);
         String file2 = readFile(filePath2);
 
         var ext1 = getFileExtension(filePath1);
         var ext2 = getFileExtension(filePath2);
 
-        Map<String, String> mapFile1 = Parser.parse(filePath1, file1, ext1);
-        Map<String, String> mapFile2 = Parser.parse(filePath2, file2, ext2);
+        Map<String, Object> mapFile1 = Parser.parse(filePath1, file1, ext1);
+        Map<String, Object> mapFile2 = Parser.parse(filePath2, file2, ext2);
 
         Set<String> keys = new TreeSet<>(mapFile1.keySet());
         keys.addAll(mapFile2.keySet());
@@ -53,7 +42,7 @@ public class Differ {
         return result;
     }
 
-    public static String generate(String filePath1, String filePath2) {
+    public static String generate(String filePath1, String filePath2) throws IOException {
         return generate(filePath1, filePath2, "stylish");
     }
 }

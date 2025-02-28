@@ -18,5 +18,7 @@ make install
 ```
 
 ### Demonstrations
-#### Report in stylish format for json file
-[![asciicast](https://asciinema.org/a/uLxvphoNjdlD2h94gqWfyPrCQ.svg)](https://asciinema.org/a/uLxvphoNjdlD2h94gqWfyPrCQ) 
+#### Report in stylish format (default)
+[![asciicast](https://asciinema.org/a/uLxvphoNjdlD2h94gqWfyPrCQ.svg)](https://asciinema.org/a/uLxvphoNjdlD2h94gqWfyPrCQ)
+#### Report in plain format
+[![asciicast](https://asciinema.org/a/ua53fiIVoZzbH8orbhftLJGWW.svg)](https://asciinema.org/a/ua53fiIVoZzbH8orbhftLJGWW)

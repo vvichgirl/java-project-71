@@ -7,7 +7,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import java.util.Map;
 
 public class Parser {
-    public static Map<String, String> parse(String filePath, String file, String ext) {
+    public static Map<String, Object> parse(String filePath, String file, String ext) throws JsonProcessingException {
         ObjectMapper mapper = null;
         switch (ext) {
             case "json" -> {
@@ -18,12 +18,6 @@ public class Parser {
             }
             default -> throw new RuntimeException("Unknown file extension" + ext);
         }
-        try {
-            return mapper.readValue(file, Map.class);
-        } catch (JsonProcessingException e) {
-            System.out.println(ext + " format error in the file '" + filePath + "'");
-            System.out.println(e.getMessage());
-            return null;
-        }
+        return mapper.readValue(file, Map.class);
     }
 }
