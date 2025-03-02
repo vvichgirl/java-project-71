@@ -14,11 +14,10 @@ public class Stylish {
     private static final String TEMPLATE = "%s%s %s: %s\n";
 
     public static String getOutput(List<Map<String, Object>> diffDesc) {
-        var space = " ";
         var diffResult = diffDesc.stream()
                 .map(diff -> {
                     var status = diff.get("status");
-                    var indent = status.equals("unchanged") ? space.repeat(3) : space.repeat(2);
+                    var indent = status.equals("unchanged") ? "   " : "  ";
                     var key = diff.get("key");
                     var value = status.equals("updated") ? diff.get("valueOld") : diff.get("value");
                     value =  String.valueOf(value);
