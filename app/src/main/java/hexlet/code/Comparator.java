@@ -1,8 +1,8 @@
 package hexlet.code;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -15,7 +15,7 @@ public class Comparator {
         keys.forEach(key -> {
             Object value1 = map1.get(key);
             Object value2 = map2.get(key);
-            Map<String, Object> mapComparison = new HashMap<String, Object>();
+            Map<String, Object> mapComparison = new LinkedHashMap<String, Object>();
             mapComparison.put("key", key);
             if (!map1.containsKey(key)) {
                 mapComparison.put("status", "added");
@@ -28,8 +28,8 @@ public class Comparator {
                 mapComparison.put("value", value1);
             } else {
                 mapComparison.put("status", "updated");
-                mapComparison.put("value", value1);
-                mapComparison.put("value2", value2);
+                mapComparison.put("valueOld", value1);
+                mapComparison.put("valueNew", value2);
             }
             result.add(mapComparison);
         });

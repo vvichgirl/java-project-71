@@ -1,0 +1,48 @@
+[ {
+  "key" : "address",
+  "status" : "added",
+  "value" : {
+    "city" : "Moscow",
+    "country" : "Russia"
+  }
+}, {
+  "key" : "age",
+  "status" : "unchanged",
+  "value" : 30
+}, {
+  "key" : "children",
+  "status" : "removed",
+  "value" : [ "Katya", "Jake" ]
+}, {
+  "key" : "countChildren",
+  "status" : "removed",
+  "value" : 2
+}, {
+  "key" : "email",
+  "status" : "updated",
+  "valueOld" : "mail@mail.ru",
+  "valueNew" : "ivan@mail.ru"
+}, {
+  "key" : "haveChildren",
+  "status" : "updated",
+  "valueOld" : true,
+  "valueNew" : false
+}, {
+  "key" : "id",
+  "status" : "updated",
+  "valueOld" : 1,
+  "valueNew" : 2
+}, {
+  "key" : "secrets",
+  "status" : "added",
+  "value" : true
+}, {
+  "key" : "sex",
+  "status" : "unchanged",
+  "value" : "male"
+}, {
+  "key" : "user",
+  "status" : "updated",
+  "valueOld" : "hexlet",
+  "valueNew" : "Ivan"
+} ]

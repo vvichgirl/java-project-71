@@ -16,11 +16,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class DifferTest {
     private static String resultStylish;
     private static String resultPlain;
+    private static String resultJson;
 
     @BeforeAll
     public static void generateResult() throws Exception {
         resultStylish = readFixture("resultStylish.txt");
         resultPlain = readFixture("resultPlain.txt");
+        resultJson = readFixture("resultJson.json");
     }
 
     private static Path getFixturePath(String fileName) {
@@ -63,6 +65,14 @@ public class DifferTest {
         var filePath2 = "src/test/resources/fixtures/file2.json";
         var actual = Differ.generate(filePath1, filePath2, "plain");
         assertEquals(resultPlain, actual);
+    }
+
+    @Test
+    public void testGenerateJsonJson() throws IOException {
+        var filePath1 = "src/test/resources/fixtures/file1.json";
+        var filePath2 = "src/test/resources/fixtures/file2.json";
+        var actual = Differ.generate(filePath1, filePath2, "json");
+        assertEquals(resultJson, actual);
     }
 
     @Test

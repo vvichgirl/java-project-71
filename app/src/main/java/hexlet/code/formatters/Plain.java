@@ -15,10 +15,12 @@ public class Plain {
         var diffResult = diffDesc.stream()
                 .filter(diff -> !diff.get("status").equals("unchanged"))
                 .map(diff -> {
-                    var template = TEMPLATE.get(diff.get("status"));
-                    var value = getValueFormatted(diff.get("value"));
-                    var value2 = getValueFormatted(diff.get("value2"));
-                    return String.format(template, diff.get("key"), value, value2);
+                    var status = diff.get("status");
+                    var template = TEMPLATE.get(status);
+                    var value = status.equals("updated") ? diff.get("valueOld") : diff.get("value");
+                    value =  getValueFormatted(value);
+                    var valueNew = getValueFormatted(diff.get("valueNew"));
+                    return String.format(template, diff.get("key"), value, valueNew);
                 })
                 .collect(Collectors.joining("\n"));
         return diffResult;

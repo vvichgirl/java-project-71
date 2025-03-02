@@ -17,13 +17,15 @@ public class Stylish {
         var space = " ";
         var diffResult = diffDesc.stream()
                 .map(diff -> {
-                    var indent = diff.get("status").equals("unchanged") ? space.repeat(3) : space.repeat(2);
+                    var status = diff.get("status");
+                    var indent = status.equals("unchanged") ? space.repeat(3) : space.repeat(2);
                     var key = diff.get("key");
-                    var value = String.valueOf(diff.get("value"));
-                    var value2 = String.valueOf(diff.get("value2"));
+                    var value = status.equals("updated") ? diff.get("valueOld") : diff.get("value");
+                    value =  String.valueOf(value);
+                    var valueNew = String.valueOf(diff.get("valueNew"));
                     if (diff.get("status").equals("updated")) {
                         return String.format(TEMPLATE, indent, STATUSES.get("removed"), key, value)
-                                + String.format(TEMPLATE, indent, STATUSES.get("added"), key, value2);
+                                + String.format(TEMPLATE, indent, STATUSES.get("added"), key, valueNew);
                     } else {
                         return String.format(TEMPLATE, indent, STATUSES.get(diff.get("status")), key, value);
                     }
