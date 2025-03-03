@@ -47,27 +47,27 @@ public class DifferTest {
 
     @ParameterizedTest
     @MethodSource("argsFilesFactory")
-    public void testGenerateWithoutFormat(String filePath1, String filePath2) throws IOException {
+    public final void testGenerateWithoutFormat(String filePath1, String filePath2) throws IOException {
         var actual = Differ.generate(filePath1, filePath2);
         assertEquals(resultStylish, actual);
     }
 
     @ParameterizedTest
     @MethodSource("argsFilesFactory")
-    public void testGenerateStylishFormat(String filePath1, String filePath2) throws IOException {
+    public final void testGenerateStylishFormat(String filePath1, String filePath2) throws IOException {
         var actual = Differ.generate(filePath1, filePath2, "stylish");
         assertEquals(resultStylish, actual);
     }
 
     @ParameterizedTest
     @MethodSource("argsFilesFactory")
-    public void testGeneratePlainFormat(String filePath1, String filePath2) throws IOException {
+    public final void testGeneratePlainFormat(String filePath1, String filePath2) throws IOException {
         var actual = Differ.generate(filePath1, filePath2, "plain");
         assertEquals(resultPlain, actual);
     }
     @ParameterizedTest
     @MethodSource("argsFilesFactory")
-    public void testGenerateJsonFormat(String filePath1, String filePath2) throws IOException {
+    public final void testGenerateJsonFormat(String filePath1, String filePath2) throws IOException {
         var actual = Differ.generate(filePath1, filePath2, "json");
         assertEquals(resultJson, actual);
     }
