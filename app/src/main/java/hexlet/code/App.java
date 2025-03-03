@@ -21,7 +21,7 @@ class App implements Callable<Integer> {
     private String filePath2;
 
     @Option(names = {"-f", "--format"}, defaultValue = "stylish", description = "output format [default: stylish]")
-    private String format = "stylish";
+    private String format;
 
     @Override
     public Integer call() throws IOException {

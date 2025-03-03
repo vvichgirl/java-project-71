@@ -31,8 +31,8 @@ public class Differ {
         var ext1 = getFileExtension(filePath1);
         var ext2 = getFileExtension(filePath2);
 
-        Map<String, Object> mapFile1 = Parser.parse(filePath1, file1, ext1);
-        Map<String, Object> mapFile2 = Parser.parse(filePath2, file2, ext2);
+        Map<String, Object> mapFile1 = Parser.parse(file1, ext1);
+        Map<String, Object> mapFile2 = Parser.parse(file2, ext2);
 
         Set<String> keys = new TreeSet<>(mapFile1.keySet());
         keys.addAll(mapFile2.keySet());

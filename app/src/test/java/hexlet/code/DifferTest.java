@@ -1,13 +1,16 @@
 package hexlet.code;
 
-//import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -35,48 +38,42 @@ public class DifferTest {
         return Files.readString(path).trim();
     }
 
-    @Test
-    public void testGenerateJsonStylish() throws IOException {
-        var filePath1 = "src/test/resources/fixtures/file1.json";
-        var filePath2 = "src/test/resources/fixtures/file2.json";
-        var actual = Differ.generate(filePath1, filePath2, "stylish");
-        assertEquals(resultStylish, actual);
+    private static Stream<Arguments> argsFilesFactory() {
+        return Stream.of(
+                Arguments.of("src/test/resources/fixtures/file1.json", "src/test/resources/fixtures/file2.json"),
+                Arguments.of("src/test/resources/fixtures/file1.yaml", "src/test/resources/fixtures/file2.yaml")
+        );
     }
 
-    @Test
-    public void testGenerateJsonWithoutFormat() throws IOException {
-        var filePath1 = "src/test/resources/fixtures/file1.json";
-        var filePath2 = "src/test/resources/fixtures/file2.json";
+    @ParameterizedTest
+    @MethodSource("argsFilesFactory")
+    public void testGenerateWithoutFormat(String filePath1, String filePath2) throws IOException {
         var actual = Differ.generate(filePath1, filePath2);
         assertEquals(resultStylish, actual);
     }
 
-    @Test
-    public void testGenerateYAMLStylish() throws IOException {
-        var filePath1 = "src/test/resources/fixtures/file1.yaml";
-        var filePath2 = "src/test/resources/fixtures/file2.yaml";
+    @ParameterizedTest
+    @MethodSource("argsFilesFactory")
+    public void testGenerateStylishFormat(String filePath1, String filePath2) throws IOException {
         var actual = Differ.generate(filePath1, filePath2, "stylish");
         assertEquals(resultStylish, actual);
     }
 
-    @Test
-    public void testGenerateJsonPlain() throws IOException {
-        var filePath1 = "src/test/resources/fixtures/file1.json";
-        var filePath2 = "src/test/resources/fixtures/file2.json";
+    @ParameterizedTest
+    @MethodSource("argsFilesFactory")
+    public void testGeneratePlainFormat(String filePath1, String filePath2) throws IOException {
         var actual = Differ.generate(filePath1, filePath2, "plain");
         assertEquals(resultPlain, actual);
     }
-
-    @Test
-    public void testGenerateJsonJson() throws IOException {
-        var filePath1 = "src/test/resources/fixtures/file1.json";
-        var filePath2 = "src/test/resources/fixtures/file2.json";
+    @ParameterizedTest
+    @MethodSource("argsFilesFactory")
+    public void testGenerateJsonFormat(String filePath1, String filePath2) throws IOException {
         var actual = Differ.generate(filePath1, filePath2, "json");
         assertEquals(resultJson, actual);
     }
 
     @Test
-    public void testGenerateIncorrectFileFormat() throws IOException {
+    public void testGenerateIncorrectFileFormat() {
         var filePath1 = "src/test/resources/fixtures/file_txt_format.txt";
         Throwable thrown = assertThrows(RuntimeException.class, () -> {
             Differ.generate(filePath1, filePath1, "stylish");
@@ -85,7 +82,7 @@ public class DifferTest {
     }
 
     @Test
-    public void testGenerateIncorrectOutputFormat() throws IOException {
+    public void testGenerateIncorrectOutputFormat() {
         var filePath1 = "src/test/resources/fixtures/file1.json";
         var filePath2 = "src/test/resources/fixtures/file2.json";
         Throwable thrown = assertThrows(RuntimeException.class, () -> {
